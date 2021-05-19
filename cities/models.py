@@ -12,6 +12,7 @@ class City(models.Model):
     class Meta:
         verbose_name = 'Місто'
         verbose_name_plural = 'Міста'
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
