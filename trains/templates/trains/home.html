@@ -1,31 +1,46 @@
 {% extends 'base.html' %}
-{% block title %}Список міст{% endblock %}
+{% block title %}Список Потягів{% endblock %}
 {% block content %}
 <div class="container">
-<h1>Список міст</h1>
+<h1 class="text-center">Список потягів</h1>
     <div class="row ">
-        <div class='col-md-6 mx-auto'>
+        <div class='col-8 mx-auto'>
                 <table class="table table-striped">
                 <tbody>
+                <thead>
+                    <tr>
+                        <th> Номер потягу</th>
+                        <th> Звідки</th>
+                        <th> Куди</th>
+                        <th> Час в дорозі</th>
+                        <th> &nbsp;</th>
+                        <th> &nbsp;</th>
+                    </tr>
+                </thead>
                 {% for object in page_obj%}
                     <tr>
-                    <td>
-                    <a href='{% url "cities:detail" pk=object.pk%}'> {{object.name}} </a>
-                    </td>
-                    <td>
-                    <a href='{% url "cities:update" pk=object.pk%}'>
+                        <td>{{object.name}}</td>
+                        <td>{{object.from_city}}</td>
+                        <td>{{object.to_city}}</td>
+                        <td>{{object.travel_time}}</td>
+                        <td>
+                    <a href='{% url "trains:update" pk=object.pk%}'>
                     <button type="button" class="btn btn-primary btn-sm"> Редагувати </button>
                     </a>
                     </td>
                     <td>
-                    <a href='{% url "cities:delete" pk=object.pk%}'>
+                    <a href='{% url "trains:delete" pk=object.pk%}'>
                     <button type="button" class="btn btn-danger btn-sm"> Видалити </button>
                     </a>
                     </td>
+
                     </tr>
+
+
                 {% endfor %}
                 </tbody>
                 </table>
+
         </div>
     </div>
 </div>
@@ -55,14 +70,5 @@
   </ul>
 </nav>
 
-<div class="row ">
-    <div class="col-4">
-        <form action="{% url 'cities:add' %}" method="post"> {% csrf_token %}
-    {{form.as_p}}
-<br>
-<input type="submit" value="Зберегти">
-</form>
-    </div>
-</div>
 
 {% endblock content %}

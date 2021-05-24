@@ -2,7 +2,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, \
+    ListView
 
 from cities.forms import HtmlForm, CityForm
 from cities.models import City
@@ -20,8 +26,6 @@ def home(request, pk=None):
         city = get_object_or_404(City, id=pk)
         context = {'object': city}
         return render(request, 'cities/detail.html', context)
-#    form = CityForm()
-#    cities = City.objects.all().order_by('name')
     cities = City.objects.all()
     paginator = Paginator(cities, 2)
     page = request.GET.get('page')
@@ -58,6 +62,7 @@ class CityDeleteView(DeleteView):
     success_url = reverse_lazy('cities:home')
 
     def get(self, request, *args, **kwargs):
+        messages.success(request, "Місто було успішно створено")
         return self.post(request, *args, **kwargs)
 
 
